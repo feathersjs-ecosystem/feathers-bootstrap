@@ -1,0 +1,9 @@
+{
+  "require": "./sub/with-options",
+  "options": {
+    "test": {
+      "require": "./sub/second.json"
+    },
+    "other": "thing"
+  }
+}

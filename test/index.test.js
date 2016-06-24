@@ -1,18 +1,15 @@
-import { expect } from 'chai';
-import plugin from '../src';
+import assert from 'assert';
+import bootstrap from '../src';
+import path from 'path';
 
 describe('feathers-bootstrap', () => {
   it('is CommonJS compatible', () => {
-    expect(typeof require('../lib')).to.equal('function');
+    assert.equal(typeof require('../lib'), 'function');
   });
 
-  it('basic functionality', done => {
-    expect(typeof plugin).to.equal('function', 'It worked');
-    done();
-  });
-
-  it('exposes the Service class', done => {
-    expect(plugin.Service).to.not.equal(undefined);
-    done();
+  it.skip('does something', function() {
+    bootstrap({
+      main: path.join(__dirname, 'feathers.json')
+    });
   });
 });

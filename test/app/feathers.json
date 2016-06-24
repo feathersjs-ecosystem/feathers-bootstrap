@@ -1,0 +1,26 @@
+{
+  "env": {
+    "configuration": { "require": "./config" },
+    "mongodb": {
+      "require": "./mongodb",
+      "options": {
+        "connection": "configuration.mongodb"
+      }
+    }
+  },
+  "plugins": [
+    {
+      "require": "feathers-configuration",
+      "options": { "path": "./config" }
+    },
+    { "require": "feathers-rest" },
+    {
+      "require": "feathers-socketio",
+      "arguments": [ { "require": "./socketio" } ]
+    },
+    { "require": "feathers-hooks" }
+  ],
+  "services": {
+    "/todos": { "require": "./services/todos.json" }
+  }
+}

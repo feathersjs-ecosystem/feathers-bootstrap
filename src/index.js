@@ -1,28 +1,48 @@
-import errors from 'feathers-errors';
-import makeDebug from 'debug';
+// import errors from 'feathers-errors';
+// import load from './loader';
 
-const debug = makeDebug('feathers-bootstrap');
+const debug = require('debug')('feathers-bootstrap');
 
-class Service {
-  constructor(options = {}) {
-    this.options = options;
-  }
-
-  find(params) {
-    return new Promise((resolve, reject) => {
-      // Put some async code here.
-      if (!params.query) {
-        return reject(new errors.BadRequest());
-      }
-
-      resolve([]);
-    });
-  }
-}
-
-export default function init(options) {
+export default function(options) {
   debug('Initializing feathers-bootstrap plugin');
-  return new Service(options);
-}
 
-init.Service = Service;
+  return function() {
+    const app = this;
+    const main = require(options.main);
+    const configure = main.configure;
+    const services = main.services;
+    // const converter = value => {
+    //   if(value.indexOf('app.') === 0) {
+    //     const parts = value.substring(4).split('.');
+    //     const val = app.get(parts.shift());
+
+    //     let current = val;
+
+    //     for(let i = 0; i < parts.length; i++) {
+    //       current = current && current[i];
+    //     }
+
+    //     return current;
+    //   }
+
+    //   return value;
+    // };
+
+    configure.forEach(plugin => {
+      // const fn = load(plugin, )
+      process(plugin, function(module, data) {
+        app.configure(module(... data.arguments));
+      }.bind(app));
+    });
+
+    Object.keys(services).forEach(path => {
+      process(services[path], function(module, data) {
+        app.use(path, module(... data.arguments));
+        const service = app.service(path);
+
+        service.before(data.before || []);
+        service.after(data.after || []);
+      }.bind(app));
+    });
+  };
+}
