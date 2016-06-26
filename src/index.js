@@ -1,48 +1,55 @@
-// import errors from 'feathers-errors';
-// import load from './loader';
+import config from 'config';
+import path from 'path';
+import omit from 'lodash/omit';
+import each from 'lodash/each';
+import load from './loader';
 
 const debug = require('debug')('feathers-bootstrap');
+const CONFIG_KEY = 'config';
+const converter = value => {
+  if(value === CONFIG_KEY) {
+    return config;
+  }
+
+  if(value.indexOf(`${CONFIG_KEY}.`) === 0) {
+    const key = value.substring(CONFIG_KEY.length + 1);
+
+    return config.get(key);
+  }
+
+  return value;
+};
 
 export default function(options) {
   debug('Initializing feathers-bootstrap plugin');
 
   return function() {
     const app = this;
-    const main = require(options.main);
-    const configure = main.configure;
-    const services = main.services;
-    // const converter = value => {
-    //   if(value.indexOf('app.') === 0) {
-    //     const parts = value.substring(4).split('.');
-    //     const val = app.get(parts.shift());
+    const filename = path.isAbsolute(options.main) ? options.main :
+      path.join(process.cwd(), options.main);
+    const main = require(filename);
+    const bootstrap = load(main.config || {}, filename, converter)
+      .then(bootstrapConfig => {
+        each(bootstrapConfig, (value, key) => {
+          if(config.has(key)) {
+            throw new Error(`Configuration key '${key}' already exists in the application configuration provided by node-config`);
+          }
+        });
 
-    //     let current = val;
+        Object.assign(config, bootstrapConfig);
+      })
+      .then(() => load(omit(main, 'config'), filename, converter))
+      .then(bootstrap => {
+        const plugins = bootstrap.plugins || [];
+        const services = bootstrap.services || {};
 
-    //     for(let i = 0; i < parts.length; i++) {
-    //       current = current && current[i];
-    //     }
+        each(plugins, fn => app.configure(fn));
+        each(services, (service, path) => app.use(path, service));
+      }).catch(e => {
+        console.error('BOOTSTRAP ERROR', e);
+        throw e;
+      });
 
-    //     return current;
-    //   }
-
-    //   return value;
-    // };
-
-    configure.forEach(plugin => {
-      // const fn = load(plugin, )
-      process(plugin, function(module, data) {
-        app.configure(module(... data.arguments));
-      }.bind(app));
-    });
-
-    Object.keys(services).forEach(path => {
-      process(services[path], function(module, data) {
-        app.use(path, module(... data.arguments));
-        const service = app.service(path);
-
-        service.before(data.before || []);
-        service.after(data.after || []);
-      }.bind(app));
-    });
+    Object.assign(app, { config, bootstrap, });
   };
 }

@@ -1,9 +1,7 @@
 {
   "require": "./todos.service",
-  "options": {
-    "Model": { "require": "../models/todo" },
-    "paginate": "app.paginate"
-  },
-  "before": [],
-  "after": []
+  "options": "config",
+  "before": {},
+  "after": {},
+  "filter": {}
 }

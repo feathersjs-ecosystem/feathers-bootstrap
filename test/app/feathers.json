@@ -1,26 +1,21 @@
 {
-  "env": {
-    "configuration": { "require": "./config" },
-    "mongodb": {
-      "require": "./mongodb",
-      "options": {
-        "connection": "configuration.mongodb"
-      }
+  "config": {
+    "database": {
+      "require": "./database.js",
+      "options": { "connection": "config.connection.url" }
     }
   },
   "plugins": [
-    {
-      "require": "feathers-configuration",
-      "options": { "path": "./config" }
-    },
-    { "require": "feathers-rest" },
-    {
-      "require": "feathers-socketio",
-      "arguments": [ { "require": "./socketio" } ]
-    },
-    { "require": "feathers-hooks" }
+    { "require": "feathers-rest", "options": {} },
+    { "require": "feathers-socketio", "options": {} },
+    { "require": "feathers-hooks", "options": {} }
   ],
   "services": {
-    "/todos": { "require": "./services/todos.json" }
+    "/todos": { "require": "./services/todos.json" },
+    "/messages": { "require": "./services/messages.json" }
+  },
+  "middleware": {
+    "before": {},
+    "after": {}
   }
 }

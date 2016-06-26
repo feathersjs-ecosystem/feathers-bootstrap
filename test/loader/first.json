@@ -4,6 +4,7 @@
     "test": {
       "require": "./sub/second.json"
     },
-    "other": "thing"
+    "other": "thing",
+    "path": { "require": "path" }
   }
 }
