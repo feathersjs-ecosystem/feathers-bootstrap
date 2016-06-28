@@ -22,11 +22,13 @@ export function load(mod, parent) {
   const name = data.require;
 
   let location = '';
+  let loadedModule;
 
   // If the object has a `require` statement
   if(name) {
-    debug(`Loading require ${name}`);
     const root = path.dirname(parent);
+    debug(`Loading require ${name}`);
+
     // The location of the file to require
     try {
       location = require.resolve(name);
@@ -36,7 +38,11 @@ export function load(mod, parent) {
       debug(`resolved location for ${name} to ${location}`);
     }
 
-    const loadedModule = require(location);
+    try {
+      loadedModule = require(location);
+    } catch(error) {
+      throw new Error(`Can not load module ${name} defined in ${parent} (\`${JSON.stringify(data)}\`)`);
+    }
 
     if(path.extname(name) === '.json') {
       // if it s a JSON configuration file, clone its data
