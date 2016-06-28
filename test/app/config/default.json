@@ -1,8 +1,0 @@
-{
-  "port": 3030,
-  "connection": { "url": "some/db/url" },
-  "paginate": {
-    "default": 5,
-    "max": 10
-  }
-}

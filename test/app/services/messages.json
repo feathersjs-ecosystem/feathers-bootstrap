@@ -1,6 +1,0 @@
-{
-  "require": "feathers-memory",
-  "options": {
-    "paginate": "config.paginate"
-  }
-}

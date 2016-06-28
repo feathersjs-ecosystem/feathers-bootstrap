@@ -1,7 +1,0 @@
-{
-  "require": "./todos.service",
-  "options": "config",
-  "before": {},
-  "after": {},
-  "filter": {}
-}

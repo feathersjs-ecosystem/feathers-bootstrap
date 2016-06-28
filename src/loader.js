@@ -6,13 +6,12 @@ import clone from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
 
 const debug = require('debug')('feathers-bootstrap:loader');
-const keywords = [ 'options', 'arguments', 'module', 'require' ];
+const keywords = [ 'options', 'module', 'require' ];
 const assign = (obj, data) => {
   const toAssign = omit(data, keywords);
 
   if(!isEmpty(toAssign)) {
-    // We create a copy but make it point to the original obj prototype
-    return Object.assign(Object.create(obj), obj, toAssign);
+    return Object.assign(obj, toAssign);
   }
 
   return obj;
@@ -89,22 +88,23 @@ export function process(data, convert = value => value) {
     if(typeof mod !== 'undefined') {
       // If the module is a function and `options` or `arguments`
       // is specified in the configuration, run that function with options or arguments
-      if((result.options || result.arguments) && typeof mod === 'function') {
-        const args = result.options ? [ result.options ] : result.arguments;
+      if(result.options && typeof mod === 'function') {
+        const args = Array.isArray(result.options) ?
+          result.options : [ result.options ];
         debug(`Calling function returned from ${data.require} with`, args);
 
         // Call the module with the given arguments
-        return assign(mod.call(this, ...args), data);
+        return assign(mod.call(this, ...args), result);
       }
 
       // If we are loading a JSON configuration file, process it recursively
       if(data.require && path.extname(data.require) === '.json') {
         debug(`Recursively processing JSON configuration file ${data.require}`);
-        return process(mod, convert).then(processed => assign(processed, data));
+        return process(mod, convert).then(processed => assign(processed, result));
       }
 
       // Otherwise just return the module
-      return assign(mod, data);
+      return assign(mod, result);
     }
 
     return result;
