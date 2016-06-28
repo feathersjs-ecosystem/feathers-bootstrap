@@ -29,5 +29,8 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 
+data/
+
 # The compiled/babelified modules
 lib/
+

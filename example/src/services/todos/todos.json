@@ -1,0 +1,13 @@
+{
+  "require": "./todos.service",
+  "options": "config",
+  "before": {
+    "get": [{ "require": "./hooks/change-id", "options": [] }]
+  },
+  "after": {
+    "get": [{ "require": "./hooks/update-text", "options": [] }]
+  },
+  "filter": {
+    "all": { "require": "./todos.filter", "options": [] }
+  }
+}

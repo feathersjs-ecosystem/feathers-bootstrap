@@ -1,0 +1,9 @@
+{
+  "port": 3030,
+  "paginate": {
+    "default": 5,
+    "max": 10
+  },
+  "todos": { "text": "You really have to do" },
+  "nedb": { "path": "./data" }
+}
