@@ -3,7 +3,7 @@
   "options": {
     "paginate": "config.paginate",
     "Model": {
-      "require": "messages.model.js",
+      "require": "./messages.model",
       "options": "config.nedb"
     }
   },

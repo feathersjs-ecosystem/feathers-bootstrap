@@ -43,7 +43,7 @@ export default function(options) {
         const { services, plugins } = bootstrap;
 
         each(plugins, fn => app.configure(fn));
-        each(services, (service, path) => app.use(path, service));
+        each(services, (service, path) => app.service(path, service));
         each(middlewareMethods, method =>
           each(bootstrap[method], (middleware, path) =>
             app[method](path, ...middleware)

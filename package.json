@@ -37,7 +37,7 @@
     "jshint": "jshint src/. test/. --config",
     "mocha": "NODE_CONFIG_DIR=\"./example/config\" mocha --recursive test/ --compilers js:babel-core/register",
     "test": "npm run compile && npm run jshint && npm run mocha",
-    "start": "npm run compile && node example/app"
+    "start": "npm run compile && NODE_CONFIG_DIR=example/config node example/src/"
   },
   "directories": {
     "lib": "lib"
