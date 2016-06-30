@@ -1,0 +1,18 @@
+{
+  "config": {
+    "port": 3030
+  },
+  "plugins": [
+    { "require": "feathers-rest", "options": [] },
+    { "require": "feathers-socketio", "options": [] },
+    { "require": "feathers-hooks", "options": [] }
+  ],
+  "services": {
+    "/todos": { "require": "feathers-memory", "options": [] }
+  },
+  "use": {
+    "/": [
+      { "require": "feathers-errors/handler", "options": [] }
+    ]
+  }
+}
