@@ -49,7 +49,6 @@
     "lodash": "^4.13.1"
   },
   "devDependencies": {
-    "feathers-errors": "^2.2.0",
     "babel-cli": "^6.10.1",
     "babel-core": "^6.9.1",
     "babel-plugin-add-module-exports": "^0.2.1",
@@ -57,6 +56,7 @@
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
     "feathers": "^2.0.1",
+    "feathers-errors": "^2.2.0",
     "feathers-hooks": "^1.5.4",
     "feathers-memory": "^0.7.3",
     "feathers-nedb": "^2.3.0",
@@ -67,6 +67,7 @@
     "nedb": "^1.8.0",
     "node-config": "0.0.2",
     "nsp": "^2.4.0",
+    "request": "^2.72.0",
     "rimraf": "^2.5.2"
   }
 }
