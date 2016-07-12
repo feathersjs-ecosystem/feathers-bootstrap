@@ -1,12 +1,12 @@
 {
   "require": "feathers-nedb",
-  "options": {
+  "options": [{
     "paginate": "config.paginate",
     "Model": {
       "require": "./messages.model",
-      "options": "config.nedb"
+      "options": [{ "path": "config.nedb.path" }]
     }
-  },
+  }],
   "filter": {
     "all": { "require": "./messages.filter", "options": [] }
   }
