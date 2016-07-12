@@ -1,18 +1,23 @@
 {
   "config": {},
+  "before": {
+    "/": {
+      "require": "./middleware/body-parser",
+      "options": [{ "extended": true }]
+    }
+  },
   "plugins": [
-    { "require": "./middleware/setup", "options": [] },
     { "require": "feathers-rest", "options": [] },
     { "require": "feathers-socketio", "options": [] },
     { "require": "feathers-hooks", "options": [] }
   ],
-  "services": {
+  "use": {
     "/todos": { "require": "./services/todos/todos.json" },
     "/messages": { "require": "./services/messages/messages.json" }
   },
-  "use": {
+  "after": {
     "/": [
-      { "require": "./middleware/not-found", "options": [] },
+      { "require": "feathers-errors/not-found", "options": [] },
       { "require": "feathers-errors/handler", "options": [] }
     ]
   }

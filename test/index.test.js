@@ -35,11 +35,34 @@ describe('feathers-bootstrap', function() {
       this.server.close(done);
     });
 
+    it('registered the error handler', function(done) {
+      request({
+        url: 'http://localhost:3030/notfound',
+        json: true
+      }, function(err, res, body) {
+        if(err) {
+          return done(err);
+        }
+
+        assert.deepEqual(body, { name: 'NotFound',
+          message: 'Page not found',
+          code: 404,
+          className: 'not-found',
+          errors: {}
+        });
+        done();
+      });
+    });
+
     it('initialized the todos service with its hooks', function(done) {
       request({
         url: 'http://localhost:3030/todos/dishes',
         json: true
       }, function(err, res, body) {
+        if(err) {
+          return done(err);
+        }
+
         assert.deepEqual(body, {
           id: 'dishes?',
           text: 'You really have to do dishes?! (updated from hook)'

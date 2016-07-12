@@ -6,6 +6,7 @@ import loader from 'json-di';
 import assign from 'lodash/assignIn';
 
 const debug = require('debug')('feathers-bootstrap');
+const toArray = obj => Array.isArray(obj) ? obj : [obj];
 const CONFIG_KEY = 'config';
 // Methods on `app` that can register middleware
 const middlewareMethods = [
@@ -43,16 +44,18 @@ export default function(file) {
       // Then process all other fields from the configuration file
       .then(() => load(omit(main, 'config'), filename, converter))
       .then(bootstrap => {
-        const { services, plugins } = bootstrap;
+        const registerMiddleware = (method, key) => {
+          each(bootstrap[key || method], (middleware, path) =>
+            app[method](path, ...toArray(middleware))
+          );
+        };
 
         debug('configuration done, registering plugins, services and middleware', bootstrap);
-        each(plugins, fn => app.configure(fn));
-        each(services, (service, path) => app.service(path, service));
-        each(middlewareMethods, method =>
-          each(bootstrap[method], (middleware, path) =>
-            app[method](path, ...middleware)
-          )
-        );
+
+        registerMiddleware('use', 'before');
+        each(bootstrap.plugins, fn => app.configure(fn));
+        each(middlewareMethods, registerMiddleware);
+        registerMiddleware('use', 'after');
       }).catch(e => {
         debug('BOOTSTRAP ERROR', e);
         throw e;
