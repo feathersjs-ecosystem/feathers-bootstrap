@@ -5,7 +5,7 @@ class Service {
 
   get(id) {
     return Promise.resolve({
-      id, text: `${this.options.todos.text} ${id}!`
+      id, text: `You really have to do ${id}!`
     });
   }
 }

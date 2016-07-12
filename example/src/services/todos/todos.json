@@ -1,6 +1,6 @@
 {
   "require": "./todos.service",
-  "options": "config",
+  "options": [],
   "before": {
     "get": [{ "require": "./hooks/change-id", "options": [] }]
   },
