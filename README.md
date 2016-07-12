@@ -36,7 +36,7 @@ Then create a `feathers.json` file:
     { "require": "feathers-socketio", "options": [] },
     { "require": "feathers-hooks", "options": [] }
   ],
-  "services": {
+  "use": {
     "/todos": {
       "require": "feathers-memory",
       "options": {
@@ -44,15 +44,16 @@ Then create a `feathers.json` file:
       }
     }
   },
-  "use": {
+  "after": {
     "/": [
+      { "require": "feathers-errors/not-found", "options": [] },
       { "require": "feathers-errors/handler", "options": [] }
     ]
   }
 }
 ```
 
-And an `app.js` like this:
+An `app.js` like this:
 
 ```js
 const feathers = require('feathers');
