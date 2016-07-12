@@ -1,7 +1,7 @@
 {
   "name": "feathers-bootstrap",
   "description": "Feathers application bootstrap and configuration using JSON configuration files",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "homepage": "https://github.com/feathersjs/feathers-bootstrap",
   "main": "lib/",
   "keywords": [
