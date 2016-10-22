@@ -1,15 +1,15 @@
 class Service {
-  constructor(options) {
+  constructor (options) {
     this.options = options;
   }
 
-  get(id) {
+  get (id) {
     return Promise.resolve({
       id, text: `You really have to do ${id}!`
     });
   }
 }
 
-module.exports = function(options) {
+module.exports = function (options) {
   return new Service(options);
 };

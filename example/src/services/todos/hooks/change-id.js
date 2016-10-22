@@ -1,5 +1,5 @@
-module.exports = function() {
-  return function(hook) {
+module.exports = function () {
+  return function (hook) {
     hook.id = hook.id + '?';
   };
 };
