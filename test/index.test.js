@@ -4,12 +4,12 @@ import feathers from 'feathers';
 import request from 'request';
 import bootstrap from '../src/';
 
-describe('feathers-bootstrap', function() {
-  it('is CommonJS compatible', function() {
+describe('feathers-bootstrap', function () {
+  it('is CommonJS compatible', function () {
     assert.equal(typeof require('../lib'), 'function');
   });
 
-  it('bootstraps a basic application', function(done) {
+  it('bootstraps a basic application', function (done) {
     const app = feathers()
       .configure(bootstrap(path.join(__dirname, 'simple.json')));
 
@@ -22,8 +22,8 @@ describe('feathers-bootstrap', function() {
     ).catch(done);
   });
 
-  describe('example application', function() {
-    before(function(done) {
+  describe('example application', function () {
+    before(function (done) {
       this.app = require('../example/src/app');
       this.app.start().then(server => {
         this.server = server;
@@ -31,16 +31,16 @@ describe('feathers-bootstrap', function() {
       }).catch(done);
     });
 
-    after(function(done) {
+    after(function (done) {
       this.server.close(done);
     });
 
-    it('registered the error handler', function(done) {
+    it('registered the error handler', function (done) {
       request({
         url: 'http://localhost:3030/notfound',
         json: true
-      }, function(err, res, body) {
-        if(err) {
+      }, function (err, res, body) {
+        if (err) {
           return done(err);
         }
 
@@ -54,12 +54,12 @@ describe('feathers-bootstrap', function() {
       });
     });
 
-    it('initialized the todos service with its hooks', function(done) {
+    it('initialized the todos service with its hooks', function (done) {
       request({
         url: 'http://localhost:3030/todos/dishes',
         json: true
-      }, function(err, res, body) {
-        if(err) {
+      }, function (err, res, body) {
+        if (err) {
           return done(err);
         }
 

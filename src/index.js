@@ -14,11 +14,11 @@ const middlewareMethods = [
 ];
 
 const converter = value => {
-  if(value === CONFIG_KEY) {
+  if (value === CONFIG_KEY) {
     return config;
   }
 
-  if(typeof value === 'string' && value.indexOf(`${CONFIG_KEY}.`) === 0) {
+  if (typeof value === 'string' && value.indexOf(`${CONFIG_KEY}.`) === 0) {
     const key = value.substring(CONFIG_KEY.length + 1);
 
     return config.get(key);
@@ -27,15 +27,14 @@ const converter = value => {
   return value;
 };
 
-export default function(file) {
+export default function (file) {
   debug('Initializing feathers-bootstrap plugin');
 
-  return function() {
+  return function () {
     const app = this;
     const load = loader.bind(app);
     // Configuration filename is either absolute or relative to the current folder
-    const filename = path.isAbsolute(file) ? file :
-      path.join(process.cwd(), file);
+    const filename = path.isAbsolute(file) ? file : path.join(process.cwd(), file);
     // The plain `feathers.json`
     const main = require(filename);
     const bootstrap = load(main.config || {}, filename, converter)
@@ -62,8 +61,9 @@ export default function(file) {
       });
 
     assign(app, {
-      config, bootstrap,
-      start() {
+      config,
+      bootstrap,
+      start () {
         return this.bootstrap.then(() =>
           this.listen(this.config.get('port'))
         );
