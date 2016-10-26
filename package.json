@@ -35,9 +35,10 @@
     "compile": "rimraf lib/ && babel -d lib/ src/",
     "watch": "babel --watch -d lib/ src/",
     "lint": "eslint-if-supported semistandard --fix",
-    "mocha": "NODE_CONFIG_DIR=\"./example/config\" mocha --recursive test/ --compilers js:babel-core/register",
-    "test": "npm run compile && npm run lint && npm run mocha",
-    "start": "npm run compile && NODE_CONFIG_DIR=example/config node example/"
+    "mocha": "NODE_CONFIG_DIR=\"./example/config\" mocha --opts mocha.opts",
+    "test": "npm run compile && npm run lint && npm run coverage",
+    "start": "npm run compile && NODE_CONFIG_DIR=example/config node example/",
+    "coverage": "NODE_CONFIG_DIR=\"./example/config\" istanbul cover node_modules/mocha/bin/_mocha -- --opts mocha.opts"
   },
   "semistandard": {
     "env": [
@@ -70,6 +71,7 @@
     "feathers-nedb": "^2.3.0",
     "feathers-rest": "^1.4.2",
     "feathers-socketio": "^1.4.1",
+    "istanbul": "^1.1.0-alpha.1",
     "mocha": "^3.0.0",
     "nedb": "^1.8.0",
     "node-config": "0.0.2",
