@@ -53,7 +53,7 @@
   },
   "dependencies": {
     "config": "^1.21.0",
-    "debug": "^2.2.0",
+    "debug": "^2.5.0",
     "json-di": "^0.2.0",
     "lodash": "^4.13.1"
   },
